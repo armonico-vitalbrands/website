@@ -14,8 +14,6 @@
       :host {
         --app-primary-color: #F44336;
         --app-secondary-color: #415967;
-
-        display: block;
       }
 
       ibm-tab {
@@ -24,6 +22,10 @@
 
       ibm-tab:hover {
         color: black;
+      }
+
+      #main-border {
+        // border: 10px solid;
       }
     </style>
 
@@ -34,41 +36,48 @@
         data="{{routeData}}"
         tail="{{subroute}}"></app-route>
 
-    <!-- Toolbar -->
-    <ibm-toolbar>
-      <a href="/home" main-title>
-        Armónico vitalbrands
-      </a>
-      <ibm-tabs selected="-1">
-        <a href="/home" tabindex="-1">
-          <ibm-tab>Blog Vital</ibm-tab>
+    <div id="main-border">
+      <!-- Toolbar -->
+      <ibm-toolbar>
+        <a href="/home" main-title>
+          Armónico vitalbrands
         </a>
-        <a href="/view2" tabindex="-1">
-          <ibm-tab>Proyectos</ibm-tab>
-        </a>
-        <a href="/view3" tabindex="-1">
-          <ibm-tab>Servicios</ibm-tab>
-        </a>
-        <a href="/view3" tabindex="-1">
-          <ibm-tab>Nosotros</ibm-tab>
-        </a>
-        <a href="/view3" tabindex="-1">
-          <ibm-tab>Contácto</ibm-tab>
-        </a>
-      </ibm-tabs>
-    </ibm-toolbar>
+        <ibm-tabs selected="[[index]]">
+          <a href="/blog" tabindex="-1">
+            <ibm-tab>Blog Vital</ibm-tab>
+          </a>
+          <a href="/projects" tabindex="-1">
+            <ibm-tab>Proyectos</ibm-tab>
+          </a>
+          <a href="/services" tabindex="-1">
+            <ibm-tab>Servicios</ibm-tab>
+          </a>
+          <a href="/about" tabindex="-1">
+            <ibm-tab>Nosotros</ibm-tab>
+          </a>
+          <a href="/contact" tabindex="-1">
+            <ibm-tab>Contácto</ibm-tab>
+          </a>
+        </ibm-tabs>
+      </ibm-toolbar>
 
-    <!-- Content render -->
-    <iron-pages
-        selected="[[page]]"
-        attr-for-selected="name"
-        fallback-selection="404"
-        role="main">
-      <view-home name="home"></view-home>
-      <view-view2 name="view2"></view-view2>
-      <view-view3 name="view3"></view-view3>
-      <view-404 name="404"></view-404>
-    </iron-pages>
+      <!-- Content render -->
+      <iron-pages
+          selected="[[page]]"
+          attr-for-selected="name"
+          fallback-selection="404"
+          role="main">
+        <view-home name="home"></view-home>
+        <view-blog name="blog"></view-blog>
+        <view-projects name="projects"></view-projects>
+        <view-services name="services"></view-services>
+        <view-about name="about"></view-about>
+        <view-contact name="contact"></view-contact>
+        <view-404 name="404"></view-404>
+      </iron-pages>
+    </div>
+    <footer>
+    </footer>
   </template>
 
   <script>
@@ -81,6 +90,9 @@
           reflectToAttribute: true,
           observer: '_pageChanged',
         },
+        index: {
+          type: Number,
+        },
       },
 
       observers: [
@@ -88,7 +100,16 @@
       ],
 
       _routePageChanged: function(page) {
+        var indexes = {
+          blog: 0,
+          projects: 1,
+          services: 2,
+          about: 3,
+          contact: 4,
+          home: -1,
+        };
         this.page = page || 'home';
+        this.index = indexes[page];
       },
 
       _pageChanged: function(page) {
