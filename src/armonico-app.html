@@ -1,14 +1,10 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
-<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
-<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
-<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
-<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
-<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/ibm-toolbar/ibm-toolbar.html">
+<link rel="import" href="../bower_components/ibm-tabs/ibm-tabs.html">
+<link rel="import" href="../bower_components/ibm-tabs/ibm-tab.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="view-icons.html">
 
@@ -22,29 +18,8 @@
         display: block;
       }
 
-      app-header {
-        color: #fff;
-        background-color: var(--app-primary-color);
-      }
-      app-header paper-icon-button {
-        --paper-icon-button-ink-color: white;
-      }
-
-      .drawer-list {
-        margin: 0 20px;
-      }
-
-      .drawer-list a {
-        display: block;
-        padding: 0 16px;
-        text-decoration: none;
-        color: var(--app-secondary-color);
-        line-height: 40px;
-      }
-
-      .drawer-list a.iron-selected {
-        color: black;
-        font-weight: bold;
+      ibm-tab {
+        --ibm-tab-color-focused: var(--app-primary-color);
       }
     </style>
 
@@ -55,39 +30,35 @@
         data="{{routeData}}"
         tail="{{subroute}}"></app-route>
 
-    <app-drawer-layout fullbleed>
-      <!-- Drawer content -->
-      <app-drawer id="drawer">
-        <app-toolbar>Menu</app-toolbar>
-        <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <a name="view1" href="/view1">View One</a>
-          <a name="view2" href="/view2">View Two</a>
-          <a name="view3" href="/view3">View Three</a>
-        </iron-selector>
-      </app-drawer>
+    <!-- Toolbar -->
+    <ibm-toolbar>
+      <a href="/home" main-title>
+        Armónico vitalbrands
+      </a>
+      <ibm-tabs selected="0">
+        <a href="/home" tabindex="-1">
+          <ibm-tab>Item one</ibm-tab>
+        </a>
+        <a href="/view2" tabindex="-1">
+          <ibm-tab>Item two</ibm-tab>
+        </a>
+        <a href="/view3" tabindex="-1">
+          <ibm-tab>Item three</ibm-tab>
+        </a>
+      </ibm-tabs>
+    </ibm-toolbar>
 
-      <!-- Main content -->
-      <app-header-layout has-scrolling-region>
-
-        <app-header condenses reveals effects="waterfall">
-          <app-toolbar>
-            <paper-icon-button icon="view-icons:menu" drawer-toggle></paper-icon-button>
-            <div main-title>Armónico vitalbrands</div>
-          </app-toolbar>
-        </app-header>
-
-        <iron-pages
-            selected="[[page]]"
-            attr-for-selected="name"
-            fallback-selection="404"
-            role="main">
-          <view-view1 name="view1"></view-view1>
-          <view-view2 name="view2"></view-view2>
-          <view-view3 name="view3"></view-view3>
-          <view-404 name="404"></view-404>
-        </iron-pages>
-      </app-header-layout>
-    </app-drawer-layout>
+    <!-- Content render -->
+    <iron-pages
+        selected="[[page]]"
+        attr-for-selected="name"
+        fallback-selection="404"
+        role="main">
+      <view-home name="home"></view-home>
+      <view-view2 name="view2"></view-view2>
+      <view-view3 name="view3"></view-view3>
+      <view-404 name="404"></view-404>
+    </iron-pages>
   </template>
 
   <script>
@@ -107,7 +78,7 @@
       ],
 
       _routePageChanged: function(page) {
-        this.page = page || 'view1';
+        this.page = page || 'home';
 
         if (!this.$.drawer.persistent) {
           this.$.drawer.close();
