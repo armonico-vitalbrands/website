@@ -12,14 +12,18 @@
   <template>
     <style>
       :host {
-        --app-primary-color: #4285f4;
-        --app-secondary-color: black;
+        --app-primary-color: #F44336;
+        --app-secondary-color: #415967;
 
         display: block;
       }
 
       ibm-tab {
         --ibm-tab-color-focused: var(--app-primary-color);
+      }
+
+      ibm-tab:hover {
+        color: black;
       }
     </style>
 
@@ -35,15 +39,21 @@
       <a href="/home" main-title>
         Armónico vitalbrands
       </a>
-      <ibm-tabs selected="0">
+      <ibm-tabs selected="-1">
         <a href="/home" tabindex="-1">
-          <ibm-tab>Item one</ibm-tab>
+          <ibm-tab>Blog Vital</ibm-tab>
         </a>
         <a href="/view2" tabindex="-1">
-          <ibm-tab>Item two</ibm-tab>
+          <ibm-tab>Proyectos</ibm-tab>
         </a>
         <a href="/view3" tabindex="-1">
-          <ibm-tab>Item three</ibm-tab>
+          <ibm-tab>Servicios</ibm-tab>
+        </a>
+        <a href="/view3" tabindex="-1">
+          <ibm-tab>Nosotros</ibm-tab>
+        </a>
+        <a href="/view3" tabindex="-1">
+          <ibm-tab>Contácto</ibm-tab>
         </a>
       </ibm-tabs>
     </ibm-toolbar>
@@ -79,10 +89,6 @@
 
       _routePageChanged: function(page) {
         this.page = page || 'home';
-
-        if (!this.$.drawer.persistent) {
-          this.$.drawer.close();
-        }
       },
 
       _pageChanged: function(page) {
